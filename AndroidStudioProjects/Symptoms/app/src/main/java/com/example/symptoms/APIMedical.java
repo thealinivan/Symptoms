@@ -21,7 +21,7 @@ public class APIMedical {
     final static String HOST = "priaid-symptom-checker-v1.p.rapidapi.com";
 
     //key
-    final static String KEY = "cc78eaa781msh65cbe3541505df4p1b173bjsnc44e95f3b7a3";
+    final static String KEY = "";
 
     //ID's
     public static String[] locationID = {"6", "7", "10", "15", "16", "17",}; //to be replaced with db query in the future
