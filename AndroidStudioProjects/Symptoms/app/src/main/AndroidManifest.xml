@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.symptoms">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:background="@color/white"
+        android:icon="@drawable/ic_app_icon_2"
+        android:label="Symptoms"
+        android:roundIcon="@drawable/ic_app_icon_2"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ActivityAddSymptoms3"></activity>
+        <activity android:name=".ActivityAddSymptoms2" />
+        <activity android:name=".ActivitySymptomsCaseDetails" />
+        <activity android:name=".ActivityRegister" />
+        <activity android:name=".ActivityAccount" />
+        <activity android:name=".ActivityLogin" />
+        <activity android:name=".ActivityAddSymptoms" />
+        <activity
+            android:name=".ActivityStart"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

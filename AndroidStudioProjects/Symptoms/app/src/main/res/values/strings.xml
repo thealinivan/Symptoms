@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Symptoms</string>
+
+    <!--    Labels-->
+    <string name="sign_up">Sign Up</string>
+    <string name="login_new_account">New Account</string>
+    <string name="login_login">Login</string>
+    <string name="account_personal_info">Personal Info</string>
+    <string name="account_activity">Activity</string>
+    <string name="account_name">Name</string>
+    <string name="account_email">Email</string>
+    <string name="ad_pretitle">My</string>
+    <string name="ad_subtitle">Case</string>
+    <string name="report_subtitle">Case Report</string>
+
+
+    <!--    Buttons-->
+    <string name="add_attraction">Submit</string>
+    <string name="submit_review">Submit</string>
+    <string name="cancel_review">Cancel</string>
+    <string name="txt_reviews"><u>Reviews</u></string>
+    <string name="txt_write_review">Write review</string>
+    <string name="txt_book_a_tour">Book a Tour</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="txt_register_btn">Register</string>
+    <string name="txt_login_btn">Login</string>
+    <string name="txt_guest_btn">Guest</string>
+    <string name="txt_next">Next</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="account_change_password">Change password</string>
+    <string name="account_my_attractions">My Attractions</string>
+    <string name="account_my_reviews">My Reviews</string>
+    <string name="account_sign_out">Sign out</string>
+
+    <!--    inactive input field-->
+    <string name="inactive_gender_hint">Gender</string>
+    <string name="inactive_yob_hint">Year of Birth</string>
+    <string name="inactive_email_hint">Email</string>
+    <string name="inactive_pass_hint">Password</string>
+    <string name="inactive_pass_conf_hint">Confirm Password</string>
+
+    <!--    active input field-->
+    <string name="active_gender_hint">male or female</string>
+    <string name="active_yob_hint">_ _ _ _</string>
+    <string name="active_email_hint">name@example.com</string>
+    <string name="active_pass_hint">min 6 digits</string>
+    <string name="active_pass_conf_hint">must match</string>
+
+    <!--    GDPR compliance-->
+    <string name="gdpr">"By clicking Register, you agree to share your personal information with Symptoms and affiliates under EU General Data Protection Regulation and UK Data Protection Act. "
+                    </string>
+
+</resources>

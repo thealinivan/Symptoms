@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--parent element-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--add option-->
+    <item
+        android:id="@+id/action_create_attraction"
+        android:icon="@drawable/ic_add"
+        android:orderInCategory="1"
+        android:title="New Symptoms Case"
+        app:showAsAction="always" />
+    //can also be showAsAction="always"
+
+    <!--account option-->
+    <item
+        android:id="@+id/action_account"
+        android:icon="@drawable/ic_account"
+        android:orderInCategory="2"
+        android:title="My Account"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#8BC34A</color>
+    <color name="colorPrimaryDark">#8BC34A</color>
+    <color name="colorAccent">#B48BC34A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#CB535353</color>
+    <color name="red">#AF5959</color>
+    <color name="colorRedLight">#3BBB5C5C</color>
+
+    //green theme color
+    <color name="colorLight2">#659EC473</color>
+    <color name="colorLight">#9EC473</color>
+    <color name="semiT80">#76C020</color>
+    <color name="semiT40">#5B8A25</color>
+
+    //cross theme colors
+    <color name="transparent">#00FFFFFF</color>
+    <color name="green">#8BC34A</color>
+    <color name="gray">#F0F0F0</color>
+    <color name="halfGrey">#AEFFFFFF</color>
+    <color name="halfBlack">#D0272727</color>
+    <color name="black3">#CBBDBDBD</color>
+    <color name="black4">#A9D5D5D5</color>
+
+    //gradient
+    <color name="white80">#CDFFFFFF</color>
+    <color name="white60">#99FFFFFF</color>
+    <color name="white40">#66FFFFFF</color>
+    <color name="white20">#33FFFFFF</color>
+
+
+</resources>
