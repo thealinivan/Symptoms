@@ -21,7 +21,7 @@ public class APIMedical {
     final static String HOST = "priaid-symptom-checker-v1.p.rapidapi.com";
 
     //key
-    final static String KEY = "";
+    final static String KEY = "API key here";
 
     //ID's
     public static String[] locationID = {"6", "7", "10", "15", "16", "17",}; //to be replaced with db query in the future
@@ -50,7 +50,7 @@ public class APIMedical {
         return null;
     }
 
-    //get and store all body locations to firebase
+    //get and store all body locations to Firebase
     public static void getAllBodyLocations() {
             String data = getApiResponse(allBodyLocationsURL);
             Gson gson = new Gson();
@@ -67,7 +67,7 @@ public class APIMedical {
             });
     }
 
-    //get and store all body sublocations to firebase
+    //get and store all body sublocations to Firebase
     public static void getAllBodySubLocations(String[] locations){
                 final String[] loc = locations;
                 String data = getApiResponse(allBodySubLocationsURL);
