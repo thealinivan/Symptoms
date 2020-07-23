@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -200,7 +198,7 @@ public class ActivityRegister extends AppCompatActivity {
                 //Store inputs in variables
                 String userGender = gender.getText().toString().toLowerCase().trim();
                 int userYOB = Integer.parseInt(yearOfBirth.getText().toString().trim());
-                String userEmail = email.getText().toString().trim();
+                String userEmail = email.getText().toString().toLowerCase().trim();
                 String userPassword = pass.getText().toString().trim();
                 String userPassConf = passConf.getText().toString().trim();
 
@@ -273,7 +271,7 @@ public class ActivityRegister extends AppCompatActivity {
         switch(item.getItemId()) {
             //handle create symptoms case
             case R.id.action_create_attraction:
-                startActivity(new Intent(this, ActivityAddSymptoms.class));
+                startActivity(new Intent(this, ActivitySelectBodyLocation.class));
                 break;
             //handle account
             case R.id.action_account:

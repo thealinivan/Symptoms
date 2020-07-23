@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +57,6 @@ public class ActivityAccount extends AppCompatActivity {
                 startActivity(new Intent(ActivityAccount.this, ActivityStart.class));
             }
         });
-
     }
 
     //check if user is authenticated
@@ -67,8 +67,6 @@ public class ActivityAccount extends AppCompatActivity {
         if (currentUser == null) {
             startActivity(new Intent(ActivityAccount.this, ActivityLogin.class));
             Toast.makeText(this, "You need to login first!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "UID: " + currentUser.getUid(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -91,7 +89,7 @@ public class ActivityAccount extends AppCompatActivity {
         switch(item.getItemId()) {
             //handle create symptoms case
             case R.id.action_create_attraction:
-                startActivity(new Intent(this, ActivityAddSymptoms.class));
+                startActivity(new Intent(this, ActivitySelectBodyLocation.class));
                 break;
             //handle account
             case R.id.action_account:

@@ -7,18 +7,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class ActivitySymptomsCaseDetails extends AppCompatActivity {
@@ -27,13 +39,22 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private Query qRef;
-
+    private ArrayList<User> userList = new ArrayList<>();
+    private ArrayList<Symptom> symptomsList = new ArrayList<>();
     private RecyclerView rv;
     private RecyclerView.LayoutManager manager;
     private BodySubLocationAdapter adapter;
     private ProgressBar pBar;
     private BodySubLocation bodySubLocation;
     private BodyLocation bodyLocation;
+    private ArrayList<Diagnosis> diagnosisList;
+    private List<Integer> symptomsIDs;
+
+    //report header
+    private TextView UIemail, UIgender, UIage, UIsymptoms;
+
+    //recycler
+    //
 
     //set layout and toolbar
     @Override
@@ -50,6 +71,16 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity {
         pBar = findViewById(R.id.s3_progress_bar);
         dbRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
+        //header
+        UIemail = findViewById(R.id.patient_email);
+        UIgender = findViewById(R.id.patient_gender);
+        UIage = findViewById(R.id.patient_age);
+        UIsymptoms = findViewById(R.id.case_symptoms_recycler);
+
+        //recycler
+        //
+
 
         //bodySymptomsarray = ...
 
@@ -68,6 +99,21 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        //symptomsList = getIntent().getParcelableExtra("symptoms");
+        userList = getIntent().getParcelableArrayListExtra("user");
+        symptomsList = getIntent().getParcelableArrayListExtra("symptoms");
+
+        //update UI header
+        UIemail.setText(((userList.get(0).getEmail()).split("@")[0]).toUpperCase());
+        UIgender.setText(userList.get(0).getGender().toUpperCase());
+        UIage.setText(String.valueOf((Calendar.getInstance().get(Calendar.YEAR))-(userList.get(0).getYOB())));
+        for (int i = 0; i < symptomsList.size(); i++){
+            UIsymptoms.setText(UIsymptoms.getText().toString() + (symptomsList.get(i).getName() + " | "));
+        }
+
+        //get data from firebase or api to firebase and then from firebase
+
     }
 
     @Override
@@ -94,7 +140,7 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity {
         switch(item.getItemId()) {
             //handle create symptoms case
             case R.id.action_create_attraction:
-                startActivity(new Intent(this, ActivityAddSymptoms.class));
+                startActivity(new Intent(this, ActivitySelectBodyLocation.class));
                 break;
             //handle account
             case R.id.action_account:
@@ -104,4 +150,63 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
+
+
+
+
+
+    public void getDiagnosisFromFirebase(){
+        //query firebase and add listener
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("Body/Symptoms/"+bodySubLocation.getID());
+        ref.addListenerForSingleValueEvent(diagnosisListener);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pBar.setVisibility(View.INVISIBLE);
+                rv.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
+    }
+
+    public void getSymptomsList(ArrayList<Symptom> sympObjArr) {
+        for (int i = 0; i <sympObjArr.size(); i++){
+
+        }
+    }
+
+    //data listener
+    ValueEventListener diagnosisListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            diagnosisList.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                    Diagnosis diagnosis= dss.getValue(Diagnosis.class);
+                    diagnosisList.add(diagnosis);
+                }
+            } else {
+                //call API //memo: convert symptoms ID's to JSON serialized int array before call
+                APIMedical.getAllDiagnosisForSymptompsCase(symptomsIDs, userList.get(0));
+                //recursive call for symptoms from Firebase
+                getDiagnosisFromFirebase();
+
+            }
+            //initiate adapter and attached it to recycler view
+            //adapter = new DiagnosisAdapter(diagnosisList, ActivitySymptomsCaseDetails.this);
+            rv.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) { }
+    };
+
+
+
 }

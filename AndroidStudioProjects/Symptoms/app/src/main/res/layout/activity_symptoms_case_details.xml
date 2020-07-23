@@ -73,21 +73,108 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="83dp" />
+                app:layout_constraintGuide_begin="71dp" />
+
+
+            <TextView
+                android:id="@+id/patient_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="3sp"
+                android:text="Patient:"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/patient_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="3sp"
+                android:text="EMAIL"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/gender_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3sp"
+                android:text="Gender:"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/patient_label" />
+
+            <TextView
+                android:id="@+id/patient_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3sp"
+                android:text="GENDER"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/patient_email" />
+
+            <TextView
+                android:id="@+id/age_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3sp"
+                android:text="Age:"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/gender_label" />
+
+            <TextView
+                android:id="@+id/patient_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3sp"
+                android:text="AGE"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/patient_gender" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="85dp" />
+
 
             <!--recycler view used to populate attraction with attraction adapter-->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/symptoms_details_recycler"
+                android:id="@+id/reports_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="60dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/potential_issues_title"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ProgressBar
@@ -96,15 +183,16 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="128dp"
+                app:layout_constraintBottom_toBottomOf="@+id/reports_recycler"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/potential_issues_title" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:background="@color/gray"
                 android:fontFamily="sans-serif-thin"
                 android:padding="10sp"
@@ -112,9 +200,69 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="25sp"
+                android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="@+id/guideline2"
                 tools:layout_editor_absoluteX="2dp" />
 
+            <TextView
+                android:id="@+id/case_related_symptoms"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:paddingEnd="10dp"
+                android:text="Related symptoms"
+                android:textAlignment="center"
+                android:textColor="@color/grey"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+            <TextView
+                android:id="@+id/potential_issues_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@color/gray"
+                android:padding="10dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:text="Potential Health Issues"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/case_symptoms_recycler" />
+
+            <TextView
+                android:id="@+id/case_symptoms_recycler"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="| "
+                android:textColor="@color/grey"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/case_related_symptoms" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="262dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="222dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

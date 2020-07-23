@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ActivityAddSymptoms3"></activity>
-        <activity android:name=".ActivityAddSymptoms2" />
+        <activity android:name=".ActivitySelectSymptoms"></activity>
+        <activity android:name=".ActivitySelectBodySubLocation" />
         <activity android:name=".ActivitySymptomsCaseDetails" />
         <activity android:name=".ActivityRegister" />
         <activity android:name=".ActivityAccount" />
         <activity android:name=".ActivityLogin" />
-        <activity android:name=".ActivityAddSymptoms" />
+        <activity android:name=".ActivitySelectBodyLocation" />
         <activity
             android:name=".ActivityStart"
             android:theme="@style/SplashTheme">

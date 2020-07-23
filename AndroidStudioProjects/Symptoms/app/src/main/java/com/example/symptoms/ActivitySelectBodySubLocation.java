@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLocationAdapter.Holder.BodySubLocationClickListener {
+public class ActivitySelectBodySubLocation extends AppCompatActivity implements BodySubLocationAdapter.Holder.BodySubLocationClickListener {
 
     //classes instances
     private FirebaseAuth mAuth;
@@ -60,14 +58,14 @@ public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLo
 
         //recyclerview
         rv = findViewById(R.id.body_sublocation_recycler);
-        manager = new GridLayoutManager(ActivityAddSymptoms2.this, 1);
+        manager = new GridLayoutManager(ActivitySelectBodySubLocation.this, 1);
         rv.setLayoutManager(manager);
 
         //handle back button
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityAddSymptoms2.this, ActivityAddSymptoms.class));
+                startActivity(new Intent(ActivitySelectBodySubLocation.this, ActivitySelectBodyLocation.class));
             }
         });
 
@@ -91,7 +89,6 @@ public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLo
             }
         }, 1000);
 
-
     }
 
     @Override
@@ -100,7 +97,7 @@ public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLo
         //user authentication validation
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            startActivity(new Intent(ActivityAddSymptoms2.this, ActivityLogin.class));
+            startActivity(new Intent(ActivitySelectBodySubLocation.this, ActivityLogin.class));
             Toast.makeText(this, "You need to login first!", Toast.LENGTH_SHORT).show();
         }
 
@@ -118,7 +115,7 @@ public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLo
         switch(item.getItemId()) {
             //handle create symptoms case
             case R.id.action_create_attraction:
-                startActivity(new Intent(this, ActivityAddSymptoms.class));
+                startActivity(new Intent(this, ActivitySelectBodyLocation.class));
                 break;
             //handle account
             case R.id.action_account:
@@ -140,7 +137,7 @@ public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLo
             }
 
             //initiate adapter and attached it to recycler view
-            adapter = new BodySubLocationAdapter(list, ActivityAddSymptoms2.this);
+            adapter = new BodySubLocationAdapter(list, ActivitySelectBodySubLocation.this);
             rv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
@@ -153,7 +150,7 @@ public class ActivityAddSymptoms2 extends AppCompatActivity implements BodySubLo
 
     @Override
     public void onBodySubLocationClick(int position) {
-        Intent i = new Intent(ActivityAddSymptoms2.this, ActivityAddSymptoms3.class);
+        Intent i = new Intent(ActivitySelectBodySubLocation.this, ActivitySelectSymptoms.class);
         i.putExtra("BodyLocation", bodyLocation);
         i.putExtra("BodySubLocation", list.get(position));
         startActivity(i);

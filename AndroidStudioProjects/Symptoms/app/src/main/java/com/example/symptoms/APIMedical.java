@@ -6,12 +6,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.Consumer;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 
@@ -21,14 +23,11 @@ public class APIMedical {
     final static String HOST = "priaid-symptom-checker-v1.p.rapidapi.com";
 
     //key
-    final static String KEY = "API key here";
-
-    //ID's
-    public static String[] locationID = {"6", "7", "10", "15", "16", "17",}; //to be replaced with db query in the future
+    final static String KEY = "API Key here";
 
     //query URL
     final static String allBodyLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations?language=en-gb";
-    final static String allBodySubLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations/"+locationID+"?language=en-gb";
+    final static String allBodySubLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations/6?language=en-gb";
 
     //Http request
     public static String getApiResponse(String queryURL){
@@ -72,6 +71,7 @@ public class APIMedical {
                 final String[] loc = locations;
                 String data = getApiResponse(allBodySubLocationsURL);
                 Gson gson = new Gson();
+                Log.d("data BS: ", data);
                 List<BodySubLocation> list = gson.fromJson(data, new TypeToken<List<BodySubLocation>>() {}.getType());
                 list.forEach(new Consumer<BodySubLocation>() {
                     @Override
@@ -105,7 +105,7 @@ public class APIMedical {
     }
 
     //get and store all diagnosis based on case symptoms
-    public static void getAllDiagnosisForSymptompsCase(String symptomsIDs, User user){
+    public static void getAllDiagnosisForSymptompsCase(List<Integer> symptomsIDs, User user){
         String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?symptoms="+symptomsIDs+"&gender="+user.getGender()+"&year_of_birth="+user.getYOB()+"&language=en-gb";
         String data = getApiResponse(allSymptomsForBodySublocation);
         Gson gson = new Gson();
@@ -137,8 +137,6 @@ public class APIMedical {
             }
         });
     }
-
-
 
     //gender formatter
     public static String getAgeBasedGender (User user){

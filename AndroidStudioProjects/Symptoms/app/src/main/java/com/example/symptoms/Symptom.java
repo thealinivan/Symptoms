@@ -98,7 +98,9 @@ public class Symptom implements Parcelable {
         ID = in.readInt();
         Name = in.readString();
         HasRedFlag = in.readString();
+        HealthSymptomLocationIDs = in.readArrayList(HealthSymptomsLocationIDs.class.getClassLoader());
         ProfName = in.readString();
+        Synonyms = in.readArrayList(Synonyms.class.getClassLoader());
     }
     public static final Creator<Symptom> CREATOR = new Creator<Symptom>() {
         @Override

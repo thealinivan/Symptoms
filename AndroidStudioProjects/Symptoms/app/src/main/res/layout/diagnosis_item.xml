@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/health_issue_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:padding="10dp"
+        android:text="@string/account_name"
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/healt_issue_accuracy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="10dp"
+        android:text="Accuracy"
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/icd_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:padding="3dp"
+        android:paddingStart="10dp"
+        android:text="ICD Name"
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/health_issue_name"
+        tools:text="ICD Name" />
+
+    <TextView
+        android:id="@+id/icd_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ICD Ranking"
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/icd_ranking_value"
+        app:layout_constraintEnd_toEndOf="@+id/icd_ranking_value"
+        app:layout_constraintStart_toStartOf="@+id/icd_ranking_value"
+        app:layout_constraintTop_toBottomOf="@+id/icd_ranking_value" />
+
+    <TextView
+        android:id="@+id/icd_ranking_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="3dp"
+        android:text="1"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/healt_issue_accuracy"
+        app:layout_constraintStart_toEndOf="@+id/health_issue_name"
+        app:layout_constraintTop_toTopOf="@+id/health_issue_name" />
+
+    <TextView
+        android:id="@+id/healt_issue_accuracy_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accuracy"
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/healt_issue_accuracy"
+        app:layout_constraintEnd_toEndOf="@+id/healt_issue_accuracy"
+        app:layout_constraintStart_toStartOf="@+id/healt_issue_accuracy"
+        app:layout_constraintTop_toBottomOf="@+id/healt_issue_accuracy" />
+
+    <TextView
+        android:id="@+id/specialisation_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5sp"
+        android:text="Specialisations: "
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icd_name" />
+
+    <TextView
+        android:id="@+id/specialisation_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5sp"
+        android:text="SPECIALISATION LIST"
+        android:textAlignment="viewStart"
+        android:textColor="@color/halfBlack"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/specialisation_label"
+        app:layout_constraintTop_toBottomOf="@+id/icd_name" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
