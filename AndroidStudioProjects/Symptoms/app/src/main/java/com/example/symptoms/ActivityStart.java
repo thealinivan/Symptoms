@@ -58,3 +58,30 @@ public class ActivityStart extends AppCompatActivity {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//This project is part of my dissertation report
+//University of Roehampton QA Higher Education
+//2020
+//Alin Ivan

@@ -153,13 +153,6 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Body/Symptoms/"+bodySubLocation.getID());
         ref.addListenerForSingleValueEvent(listener);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pBar.setVisibility(View.INVISIBLE);
-                rv.setVisibility(View.VISIBLE);
-            }
-        }, 1000);
     }
 
     //get user info from firebase
@@ -192,6 +185,8 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
             adapter = new SymptomAdapter(list, ActivitySelectSymptoms.this);
             rv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            pBar.setVisibility(View.INVISIBLE);
+            rv.setVisibility(View.VISIBLE);
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -219,6 +214,14 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         symptomsList.add(list.get(position));
         currentSymptoms += list.get(position).getName()+ " | ";
         addedSymptoms.setText(currentSymptoms);
+
+        addedSymptoms.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addedSymptoms.setBackgroundColor(getResources().getColor(android.R.color.white));
+            }
+        }, 1000);
     }
 
 

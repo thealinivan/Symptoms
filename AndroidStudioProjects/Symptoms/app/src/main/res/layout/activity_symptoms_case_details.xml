@@ -165,11 +165,11 @@
             <!--recycler view used to populate attraction with attraction adapter-->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reports_recycler"
+                android:id="@+id/diagnosis_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="90dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -178,12 +178,12 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <ProgressBar
-                android:id="@+id/symptoms_case_details_progress_bar"
+                android:id="@+id/diagnosis_progress_bar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="128dp"
-                app:layout_constraintBottom_toBottomOf="@+id/reports_recycler"
+                app:layout_constraintBottom_toBottomOf="@+id/diagnosis_recycler"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -209,6 +209,7 @@
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-thin"
                 android:paddingEnd="10dp"
                 android:text="Related symptoms"
@@ -216,7 +217,7 @@
                 android:textColor="@color/grey"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
@@ -224,7 +225,7 @@
                 android:id="@+id/potential_issues_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:background="@color/gray"
                 android:padding="10dp"
                 android:paddingStart="30dp"
@@ -241,12 +242,13 @@
                 android:id="@+id/case_symptoms_recycler"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:padding="3dp"
                 android:text="| "
                 android:textColor="@color/grey"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/case_related_symptoms" />
 
 
@@ -256,13 +258,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="262dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="222dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

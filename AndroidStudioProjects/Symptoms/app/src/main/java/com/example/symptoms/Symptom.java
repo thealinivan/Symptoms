@@ -98,7 +98,7 @@ public class Symptom implements Parcelable {
         ID = in.readInt();
         Name = in.readString();
         HasRedFlag = in.readString();
-        HealthSymptomLocationIDs = in.readArrayList(HealthSymptomsLocationIDs.class.getClassLoader());
+        HealthSymptomLocationIDs = in.readArrayList(HealthSymptomsLocationIDs.class.getClass().getClassLoader());
         ProfName = in.readString();
         Synonyms = in.readArrayList(Synonyms.class.getClassLoader());
     }

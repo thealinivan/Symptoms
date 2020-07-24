@@ -81,13 +81,6 @@ public class ActivitySelectBodySubLocation extends AppCompatActivity implements 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Body/Sublocations/"+bodyLocation.getID());
         ref.addListenerForSingleValueEvent(listener);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pBar.setVisibility(View.INVISIBLE);
-                rv.setVisibility(View.VISIBLE);
-            }
-        }, 1000);
 
     }
 
@@ -140,6 +133,9 @@ public class ActivitySelectBodySubLocation extends AppCompatActivity implements 
             adapter = new BodySubLocationAdapter(list, ActivitySelectBodySubLocation.this);
             rv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            pBar.setVisibility(View.INVISIBLE);
+            rv.setVisibility(View.VISIBLE);
+
         }
 
         @Override

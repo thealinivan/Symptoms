@@ -74,13 +74,6 @@ public class ActivitySelectBodyLocation extends AppCompatActivity implements Bod
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Body/Locations");
         ref.addListenerForSingleValueEvent(listener);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pBar.setVisibility(View.INVISIBLE);
-                rv.setVisibility(View.VISIBLE);
-            }
-        }, 1000);
 
     }
 
@@ -133,6 +126,8 @@ public class ActivitySelectBodyLocation extends AppCompatActivity implements Bod
             adapter = new BodyLocationAdapter(list, ActivitySelectBodyLocation.this);
             rv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            pBar.setVisibility(View.INVISIBLE);
+            rv.setVisibility(View.VISIBLE);
         }
 
         @Override

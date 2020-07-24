@@ -7,7 +7,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.Consumer;
@@ -23,7 +26,7 @@ public class APIMedical {
     final static String HOST = "priaid-symptom-checker-v1.p.rapidapi.com";
 
     //key
-    final static String KEY = "API Key here";
+    final static String KEY = "API Key Here";
 
     //query URL
     final static String allBodyLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations?language=en-gb";
@@ -105,20 +108,35 @@ public class APIMedical {
     }
 
     //get and store all diagnosis based on case symptoms
-    public static void getAllDiagnosisForSymptompsCase(List<Integer> symptomsIDs, User user){
-        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?symptoms="+symptomsIDs+"&gender="+user.getGender()+"&year_of_birth="+user.getYOB()+"&language=en-gb";
+    public static void getAllDiagnosisForSymptompsCase(List<Symptom> symptoms, User user){
+        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?symptoms="+getSymptomsInJSON(symptoms)+"&gender="+user.getGender()+"&year_of_birth="+user.getYOB()+"&language=en-gb";
         String data = getApiResponse(allSymptomsForBodySublocation);
         Gson gson = new Gson();
-        List<Diagnosis> list = gson.fromJson(data, new TypeToken<List<Diagnosis>>() {}.getType());
-        list.forEach(new Consumer<Diagnosis>() {
-            @Override
-            public void accept(Diagnosis symp) {
-                DatabaseReference dbRef;
-                dbRef = FirebaseDatabase.getInstance().getReference();
+        List<Diagnosis> diagnosisList = gson.fromJson(data, new TypeToken<List<Diagnosis>>() {}.getType());
+        DatabaseReference dbRef;
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child("Diagnosis").child(getSymptomsStringFromList(symptoms)).setValue(diagnosisList);
 
-                //setup Diagnosis object class and then decide database structure for transfer
-            }
-        });
+    }
+
+    public static String getSymptomsInJSON (List<Symptom> symptoms){
+        Gson gson = new Gson();
+        List<Integer> arr = new ArrayList<>();
+        String jsonArray;
+        for (int i = 0; i < symptoms.size(); i++){
+           arr.add(symptoms.get(0).getID());
+        }
+        jsonArray = gson.toJson(arr);
+        return jsonArray;
+    }
+
+    //get symptoms ID's in a String to use it as diagnosis case reference when storing in firebase
+    public static String getSymptomsStringFromList(List<Symptom> symptoms) {
+        String sympString = "";
+        for (int i = 0; i <symptoms.size(); i++){
+            sympString += symptoms.get(i).getID();
+        }
+        return sympString;
     }
 
     //get and store all health issues info based on diagnosis/health issues id

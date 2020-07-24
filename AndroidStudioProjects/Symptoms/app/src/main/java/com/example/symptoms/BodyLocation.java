@@ -13,7 +13,6 @@ public class BodyLocation implements Parcelable {
         this.Name = name;
     }
 
-    //for deserialization purposes
     public BodyLocation(){};
 
     public int getID() {
