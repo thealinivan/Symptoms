@@ -109,7 +109,11 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         getReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDiagnosisFromFirebase(selectedSymptomsList);
+                if (selectedSymptomsList.size() > 0) {
+                    getDiagnosisFromFirebase(selectedSymptomsList);
+                } else {
+                    Toast.makeText(ActivitySelectSymptoms.this, "Select at least 1 symptom", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
