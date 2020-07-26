@@ -283,10 +283,13 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
 
     @Override
     public void onSymptomClick(int position) {
-        selectedSymptomsList.add(symptomsList.get(position));
-        currentSymptoms += symptomsList.get(position).getName()+ " | ";
-        addedSymptoms.setText(currentSymptoms);
-
+        if (currentSymptoms.contains(symptomsList.get(position).getName())){
+            Toast.makeText(this, "Already added!", Toast.LENGTH_SHORT).show();
+        } else {
+            selectedSymptomsList.add(symptomsList.get(position));
+            currentSymptoms += symptomsList.get(position).getName()+ " | ";
+            addedSymptoms.setText(currentSymptoms);
+        }
         addedSymptoms.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
         new Handler().postDelayed(new Runnable() {
             @Override
