@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +54,7 @@ public class ActivitySelectBodyLocation extends AppCompatActivity implements Bod
         mAuth = FirebaseAuth.getInstance();
 
         //recyclerview
-        rv = findViewById(R.id.body_location_recycler);
+        rv = findViewById(R.id.home_recycler);
         manager = new GridLayoutManager(ActivitySelectBodyLocation.this, 1);
         rv.setLayoutManager(manager);
 

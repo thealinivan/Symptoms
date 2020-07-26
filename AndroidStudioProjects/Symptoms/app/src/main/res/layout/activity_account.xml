@@ -27,47 +27,54 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="169dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="12dp"
-                android:text="Account"
-                android:textAlignment="center"
-                android:textColor="@color/grey"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="41.4dp"
+                android:layout_height="35.4dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/account_subtitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline2" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_app_icon" />
 
             <TextView
-                android:id="@+id/textView1"
-                android:layout_width="228dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="600dp"
-                android:layout_marginBottom="100dp"
-                android:text="Logout button + My Symptomps cases list"
-                android:textAlignment="center"
-                android:textColor="@color/grey"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
+                android:id="@+id/up_pretitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="48dp" />
+                android:text="@string/ad_pretitle"
+                android:textColor="@color/black3"
+                app:layout_constraintBottom_toTopOf="@+id/up_title"
+                app:layout_constraintStart_toStartOf="@+id/up_title"
+                app:layout_constraintTop_toTopOf="@+id/up_title" />
+
+
+            <TextView
+                android:id="@+id/up_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/up_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cases"
+                android:textColor="@color/black3"
+                app:layout_constraintBottom_toBottomOf="@+id/up_title"
+                app:layout_constraintEnd_toEndOf="@+id/up_title"
+                app:layout_constraintTop_toBottomOf="@+id/up_title" />
 
             <Button
                 android:id="@+id/signOutBtn"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/button_third_action"
                 android:text="Sign out"
                 android:textAllCaps="false"
@@ -77,6 +84,75 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_marginBottom="64dp"
                 tools:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/account_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@color/gray"
+                android:fontFamily="sans-serif-thin"
+                android:padding="10sp"
+                android:text="Account Email"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/signOutBtn"
+                tools:layout_editor_absoluteX="2dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/account_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/account_subtitle" />
+
+
+            <ProgressBar
+                android:id="@+id/account_progress_bar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="128dp"
+                app:layout_constraintBottom_toBottomOf="@+id/account_recycler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/account_recycler"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/no_cases_message"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Let's open your first symptoms case"
+                android:textAlignment="center"
+                android:textColor="@color/black3"
+                android:textSize="40dp"
+                app:layout_constraintBottom_toBottomOf="@+id/account_recycler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/account_recycler" />
+
+            <Button
+                android:id="@+id/account_add"
+                android:layout_width="180dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button_main_action"
+                android:text="Add symptoms"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/no_cases_message" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,7 +86,7 @@
                 android:textColor="@color/grey"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/account_subtitle" />
 
             <TextView
                 android:id="@+id/patient_email"
@@ -94,12 +94,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="3sp"
-                android:text="EMAIL"
                 android:textColor="@color/grey"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/account_subtitle" />
 
             <TextView
                 android:id="@+id/gender_label"
@@ -117,7 +116,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3sp"
-                android:text="GENDER"
                 android:textColor="@color/grey"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -140,7 +138,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3sp"
-                android:text="AGE"
                 android:textColor="@color/grey"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -190,7 +187,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/potential_issues_title" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/account_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/gray"
@@ -218,7 +215,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/account_subtitle" />
 
 
             <TextView

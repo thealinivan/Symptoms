@@ -19,16 +19,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActivitySelectSymptoms extends AppCompatActivity implements SymptomAdapter.Holder.SymptomClickListener {
 
@@ -36,10 +39,6 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
     private static FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private Query qRef;
-    private ArrayList<Symptom> list = new ArrayList<>();
-    //for user queries
-    private static ArrayList<User> userList = new ArrayList<>();
-    private ArrayList<Symptom> symptomsList = new ArrayList<>();
     private RecyclerView rv;
     private RecyclerView.LayoutManager manager;
     private SymptomAdapter adapter;
@@ -49,6 +48,12 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
     private Button getReport;
     private String currentSymptoms = "Case Symptoms: ";
     private TextView addedSymptoms;
+    //for user queries
+    private ArrayList<User> userList = new ArrayList<>();
+    private ArrayList<Symptom> symptomsList = new ArrayList<>();
+    private ArrayList<Diagnosis> diagsList = new ArrayList<>();
+    private ArrayList<Symptom> selectedSymptomsList = new ArrayList<>();
+
 
 
     @Override
@@ -90,7 +95,6 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         bodySubLocation = getIntent().getParcelableExtra("BodySubLocation");
 
         getUserInfoFromFirebase();
-        getSymptomsFromFirebase();
 
         //handle back button
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -105,10 +109,7 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         getReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ActivitySelectSymptoms.this, ActivitySymptomsCaseDetails.class);
-                i.putParcelableArrayListExtra("symptoms", symptomsList);
-                i.putParcelableArrayListExtra("user", userList);
-                startActivity(i);
+                getDiagnosisFromFirebase(selectedSymptomsList);
             }
         });
 
@@ -148,41 +149,100 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         return super.onOptionsItemSelected(item);
     }
 
-    public void getSymptomsFromFirebase(){
-        //query firebase and add listener
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("Body/Symptoms/"+bodySubLocation.getID());
-        ref.addListenerForSingleValueEvent(listener);
+
+    //get symptoms ID's in a String to use it as diagnosis case reference when storing in firebase
+    public String getSymptomsIDsStringFromList(List<Symptom> symptoms) {
+        String sympStringIDs = "";
+        for (int i = 0; i <symptoms.size(); i++){
+            sympStringIDs += symptoms.get(i).getID();
+        }
+        return sympStringIDs;
+    }
+
+    public String getSymptomsStringFromList(List<Symptom> symptoms) {
+        String sympString = "";
+        for (int i = 0; i <symptoms.size(); i++){
+            sympString += selectedSymptomsList.get(i).getName()+ " | ";
+        }
+        return sympString;
     }
 
     //get user info from firebase
     public void getUserInfoFromFirebase() {
-        Log.d("user email", mAuth.getCurrentUser().getEmail());
         qRef = FirebaseDatabase.getInstance().getReference("User")
                 .orderByChild("email")
                 .equalTo(mAuth.getCurrentUser().getEmail());
         qRef.addListenerForSingleValueEvent(userInfoListener);
-
     }
 
-    //data listener
-    ValueEventListener listener = new ValueEventListener() {
+    public void getSymptomsFromFirebaseOrMedicalAPI(BodySubLocation bodySubLocation){
+        //query firebase and add listener
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("Body/Symptoms/"+bodySubLocation.getID());
+        ref.addListenerForSingleValueEvent(symptomsListener);
+    }
+
+
+    //get diagnosis from Firebase based on symptoms list
+    public void getDiagnosisFromFirebase(List<Symptom> symptomsList){
+        Query qRef;
+        qRef = FirebaseDatabase.getInstance().getReference().child("Diagnosis")
+                .orderByKey()
+                .equalTo(getSymptomsIDsStringFromList(symptomsList));
+        qRef.addListenerForSingleValueEvent(diagnosisListener);
+    }
+
+    //store diagnosis case with diagnosis and user references
+    public void storeDiagnosisCaseInFirebase (List<Symptom> symptomsList, User user){
+        final DiagnosisCase diagnosisCase = new DiagnosisCase(getSymptomsIDsStringFromList(selectedSymptomsList), getSymptomsStringFromList(selectedSymptomsList), user.getEmail());
+        DatabaseReference dbRef;
+        dbRef = FirebaseDatabase.getInstance().getReference("DiagnosisCase");
+        dbRef.child(dbRef.push().getKey()).setValue(diagnosisCase).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Intent i = new Intent(ActivitySelectSymptoms.this, ActivitySymptomsCaseDetails.class);
+                i.putExtra("DiagnosisCase", diagnosisCase);
+                i.putParcelableArrayListExtra("symptoms", selectedSymptomsList);
+                i.putParcelableArrayListExtra("user", userList);
+                startActivity(i);
+            }
+        });
+    }
+
+    //user info listener
+    ValueEventListener userInfoListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            list.clear();
+            userList.clear();
+            for (DataSnapshot dss:dataSnapshot.getChildren()) {
+                User user = dss.getValue(User.class);
+                userList.add(user);
+            }
+            getSymptomsFromFirebaseOrMedicalAPI(bodySubLocation);
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) { }
+    };
+
+    //symptoms listener
+    ValueEventListener symptomsListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            symptomsList.clear();
             if (dataSnapshot.exists()) {
                 for (DataSnapshot dss : dataSnapshot.getChildren()) {
                     Symptom symp = dss.getValue(Symptom.class);
-                    list.add(symp);
+                    symptomsList.add(symp);
                 }
             } else {
+                Log.d("WARNING - symptomsActivity: ","API call SYMPTOMS");
                 //call API
                 APIMedical.getSymptomsForBodySubLocation(String.valueOf(bodySubLocation.getID()), userList.get(0));
                 //recursive call for symptoms from Firebase
-                getSymptomsFromFirebase();
+                getSymptomsFromFirebaseOrMedicalAPI(bodySubLocation);
             }
             //initiate adapter and attached it to recycler view
-            adapter = new SymptomAdapter(list, ActivitySelectSymptoms.this);
+            adapter = new SymptomAdapter(symptomsList, ActivitySelectSymptoms.this);
             rv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             pBar.setVisibility(View.INVISIBLE);
@@ -192,18 +252,20 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         public void onCancelled(@NonNull DatabaseError databaseError) { }
     };
 
-    //get userinfo and call API
-    static ValueEventListener userInfoListener = new ValueEventListener() {
+    //diagnosis listener
+    ValueEventListener diagnosisListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Log.d("user List initial", String.valueOf(userList.size()));
-            userList.clear();
-            Log.d("user List cleared", String.valueOf(userList.size()));
-            for (DataSnapshot dss:dataSnapshot.getChildren()) {
-                User user = dss.getValue(User.class);
-                userList.add(user);
-                Log.d("user List added", String.valueOf(userList.size()));
+            diagsList.clear();
+            if (!dataSnapshot.exists()) {
+                Log.d("WARNING  - symptomsActivity: ","API call DIAGNOSIS");
+                //call API //memo: convert symptoms ID's to JSON serialized int array before call
+                APIMedical.getAllDiagnosisForSymptompsCase(selectedSymptomsList, userList.get(0));
+            } else {
+                Log.d(" WAR listener - symp diags listener","NO DIAGNOSIS from Firebase");
             }
+            //store diags case in firebase
+            storeDiagnosisCaseInFirebase(selectedSymptomsList, userList.get(0));
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -211,8 +273,8 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
 
     @Override
     public void onSymptomClick(int position) {
-        symptomsList.add(list.get(position));
-        currentSymptoms += list.get(position).getName()+ " | ";
+        selectedSymptomsList.add(symptomsList.get(position));
+        currentSymptoms += symptomsList.get(position).getName()+ " | ";
         addedSymptoms.setText(currentSymptoms);
 
         addedSymptoms.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));

@@ -6,18 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.List;
-
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.Holder> {
 
-    private List<Symptom> list;
+    private ArrayList<Symptom> list;
     Holder.SymptomClickListener listener;
     private int row_index = -1;
 
-    public SymptomAdapter(List<Symptom> list, Holder.SymptomClickListener listener) {
+    public SymptomAdapter(ArrayList<Symptom> list, Holder.SymptomClickListener listener) {
         this.list = list;
         this.listener = listener;
     }

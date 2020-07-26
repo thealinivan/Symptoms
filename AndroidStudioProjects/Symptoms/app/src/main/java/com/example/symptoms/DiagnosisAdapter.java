@@ -58,7 +58,7 @@ public class DiagnosisAdapter extends RecyclerView.Adapter<DiagnosisAdapter.Hold
         holder.name.setText(list.get(i).getIssue().getName());
         holder.ICDname.setText(list.get(i).getIssue().getIcdName());
         holder.ICDranking.setText(String.valueOf(list.get(i).getIssue().getRanking()));
-        holder.accuracy.setText(String.valueOf(list.get(i).getIssue().getAccuracy()));
+        holder.accuracy.setText(list.get(i).getIssue().getAccuracy() + "%");
 
         //holder.specialisationList.setText(list.get(i).getSpecialisation().get); //create specialisation list and for loop to populate
 

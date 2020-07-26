@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
-import android.provider.Contacts;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,16 +26,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 public class ActivitySymptomsCaseDetails extends AppCompatActivity implements DiagnosisAdapter.Holder.DiagnosisClickListener {
@@ -55,6 +47,8 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
     private BodySubLocation bodySubLocation;
     private BodyLocation bodyLocation;
     private ArrayList<Diagnosis> diagsList = new ArrayList<>();
+    private static List<DiagnosisCase> diagsCaseList = new ArrayList<>();
+    private DiagnosisCase currentDiagnosisCase;
 
     //report header
     private TextView UIemail, UIgender, UIage, UIsymptoms;
@@ -108,19 +102,13 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         }
 
         //symptomsList = getIntent().getParcelableExtra("symptoms");
-        userList = getIntent().getParcelableArrayListExtra("user");
         symptomsList = getIntent().getParcelableArrayListExtra("symptoms");
-
-        //update UI header
-        UIemail.setText(((userList.get(0).getEmail()).split("@")[0]).toUpperCase());
-        UIgender.setText(userList.get(0).getGender().toUpperCase());
-        UIage.setText(String.valueOf((Calendar.getInstance().get(Calendar.YEAR))-(userList.get(0).getYOB())));
-        for (int i = 0; i < symptomsList.size(); i++){
-            UIsymptoms.setText(UIsymptoms.getText().toString() + (symptomsList.get(i).getName() + " | "));
-        }
+        currentDiagnosisCase = getIntent().getParcelableExtra("DiagnosisCase");
+        Log.d("currentDiagnosisCase: ", currentDiagnosisCase.getDiagnosisSymptoms());
 
         //get diagnosis from firebase related to current diagnosis case's symptoms previously selected by the user
-        getDiagnosisFromFirebaseOrMedicalAPI(symptomsList);
+        getUserInfoFromFirebase();
+
     }
 
     @Override
@@ -128,10 +116,10 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         super.onStart();
         //user authentication validation
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
-            startActivity(new Intent(ActivitySymptomsCaseDetails.this, ActivityLogin.class));
-            Toast.makeText(this, "You need to login first!", Toast.LENGTH_SHORT).show();
-        }
+//        if (currentUser == null) {
+//            startActivity(new Intent(ActivitySymptomsCaseDetails.this, ActivityLogin.class));
+//            Toast.makeText(this, "You need to login first!", Toast.LENGTH_SHORT).show();
+//        }
 
     }
     //toolbar menu
@@ -158,34 +146,74 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         return super.onOptionsItemSelected(item);
     }
 
-
-    //get symptoms ID's in a String to use it as diagnosis case reference when storing in firebase
-    public String getSymptomsStringFromList(List<Symptom> symptoms) {
-        String sympString = "";
-        for (int i = 0; i <symptoms.size(); i++){
-            sympString += symptoms.get(i).getID();
-        }
-        return sympString;
+    //get user info from firebase
+    public void getUserInfoFromFirebase() {
+        qRef = FirebaseDatabase.getInstance().getReference("User")
+                .orderByChild("email")
+                .equalTo(currentDiagnosisCase.getUserEmail());
+        qRef.addListenerForSingleValueEvent(userInfoListener);
     }
 
     //get diagnosis case from Firebase based on symptoms list
-    public void getDiagnosisFromFirebaseOrMedicalAPI(List<Symptom> symptoms){
+    public void getDiagnosisCaseFromFirebase(List<User> userList){
+        Query qRef;
+        qRef = FirebaseDatabase.getInstance().getReference().child("DiagnosisCase")
+                .orderByChild("userEmail")
+                .equalTo(userList.get(0).getEmail());
+        qRef.addListenerForSingleValueEvent(diagnosisCaseListener);
+    }
+
+    //get diagnosis from Firebase based on symptoms list
+    public void getDiagnosisFromFirebase(DiagnosisCase diagsCase){
+        Query qRef;
         qRef = FirebaseDatabase.getInstance().getReference().child("Diagnosis")
                 .orderByKey()
-                .equalTo(getSymptomsStringFromList(symptoms));
+                .equalTo(diagsCase.getDiagnosisSymptomsID());
         qRef.addListenerForSingleValueEvent(diagnosisListener);
-
     }
 
-    //store diagnosis case with diagnosis and user references
-    public void storeDiagnosisCaseInFirebase (List<Symptom> symptoms, User user){
-        DiagnosisCase diagnosisCase = new DiagnosisCase(getSymptomsStringFromList(symptoms), user.getEmail());
-        DatabaseReference dbRef;
-        dbRef = FirebaseDatabase.getInstance().getReference();
-        dbRef.child("DiagnosisCase").child(getSymptomsStringFromList(symptoms)).setValue(diagnosisCase);
-    }
 
-    //data listener
+    //user info listener
+    ValueEventListener userInfoListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            userList.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                    User user = dss.getValue(User.class);
+                    userList.add(user);
+                }
+            } else {
+                Log.d(" WAR listener - case diagsCase listener","NO User from Firebase");
+            }
+            getDiagnosisCaseFromFirebase(userList);
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) { }
+    };
+
+    //diagnosis case listener
+    ValueEventListener diagnosisCaseListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            diagsCaseList.clear();
+            if (dataSnapshot.exists()) {
+                Log.d("dC snapshot: ", String.valueOf(dataSnapshot.getValue()));
+                for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                    DiagnosisCase diagsCase = dss.getValue(DiagnosisCase.class);
+                    diagsCaseList.add(diagsCase);
+                }
+            } else {
+                Log.d(" WAR listener - case diagsCase listener","NO DIAGNOSIS CASES from Firebase");
+            }
+            Log.d("dCaseList size : ", String.valueOf(diagsCaseList.size()));
+            getDiagnosisFromFirebase(currentDiagnosisCase);
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) { }
+    };
+
+    //diagnosis listener
     ValueEventListener diagnosisListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -194,29 +222,28 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
                 for (DataSnapshot dss : dataSnapshot.getChildren()) {
                     GenericTypeIndicator<ArrayList<Diagnosis>> t = new GenericTypeIndicator <ArrayList<Diagnosis>>() {};
                     diagsList = dss.getValue(t);
-                    int i;
-                    for (i = 0; i < diagsList.size(); i++){
-                        Log.d("diags: ", diagsList.get(0).getIssue().getName());
-                    }
-
                 }
             } else {
-                Log.d("WARNING: ", "API LOOOOP !");
-                //call API //memo: convert symptoms ID's to JSON serialized int array before call
-                APIMedical.getAllDiagnosisForSymptompsCase(symptomsList, userList.get(0));
-                //store diagnosisCase in Firebase
-                storeDiagnosisCaseInFirebase(symptomsList, userList.get(0));
-                getDiagnosisFromFirebaseOrMedicalAPI(symptomsList);
+                Log.d(" WAR listener - symp diags listener","NO DIAGNOSIS from Firebase");
             }
-            //initiate adapter and attached it to recycler view
-            adapter = new DiagnosisAdapter(diagsList, ActivitySymptomsCaseDetails.this);
-            rv.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-            pBar.setVisibility(View.INVISIBLE);
+           updateUI();
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) { }
     };
+
+    public void updateUI(){
+        //update UI header
+        UIemail.setText((userList.get(0).getEmail().toUpperCase()).split("@")[0]);
+        UIgender.setText(userList.get(0).getGender().toUpperCase());
+        UIage.setText(String.valueOf((Calendar.getInstance().get(Calendar.YEAR))-(userList.get(0).getYOB())));
+        UIsymptoms.setText(currentDiagnosisCase.getDiagnosisSymptoms());
+        //initiate adapter and attached it to recycler view
+        adapter = new DiagnosisAdapter(diagsList, ActivitySymptomsCaseDetails.this);
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        pBar.setVisibility(View.INVISIBLE);
+    }
 
     @Override
     public void onDiagnosisClick(int position) {
