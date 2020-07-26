@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DiagnosisAdapter extends RecyclerView.Adapter<DiagnosisAdapter.Holder> {
 
@@ -59,9 +60,7 @@ public class DiagnosisAdapter extends RecyclerView.Adapter<DiagnosisAdapter.Hold
         holder.ICDname.setText(list.get(i).getIssue().getIcdName());
         holder.ICDranking.setText(String.valueOf(list.get(i).getIssue().getRanking()));
         holder.accuracy.setText(list.get(i).getIssue().getAccuracy() + "%");
-
-        //holder.specialisationList.setText(list.get(i).getSpecialisation().get); //create specialisation list and for loop to populate
-
+        holder.specialisationList.setText(getSpecialisations(list.get(i).getSpecialisation()));
     }
 
     @Override
@@ -69,6 +68,12 @@ public class DiagnosisAdapter extends RecyclerView.Adapter<DiagnosisAdapter.Hold
         return list.size();
     }
 
-
+    public String getSpecialisations(List<Specialisation> specList){
+        String specialisation = "";
+        for (int i = 0; i < specList.size(); i++){
+            specialisation += specList.get(i).getName() + " | ";
+        }
+        return specialisation;
+    }
 
 }

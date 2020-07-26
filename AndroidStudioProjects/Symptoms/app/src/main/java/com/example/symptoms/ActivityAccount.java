@@ -79,6 +79,7 @@ public class ActivityAccount extends AppCompatActivity implements DiagnosisCaseA
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                Toast.makeText(ActivityAccount.this, "You have been signed out!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ActivityAccount.this, ActivityStart.class));
             }
         });
@@ -98,7 +99,7 @@ public class ActivityAccount extends AppCompatActivity implements DiagnosisCaseA
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             startActivity(new Intent(ActivityAccount.this, ActivityLogin.class));
-            Toast.makeText(this, "You need to login first!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Login please!", Toast.LENGTH_SHORT).show();
         } else {
             String name = (mAuth.getCurrentUser().getEmail()).split("@")[0];
             String s1 = name.substring(0, 1).toUpperCase();

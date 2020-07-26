@@ -139,7 +139,9 @@ public class ActivityLogin extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(ActivityLogin.this, "Logged in !", Toast.LENGTH_SHORT).show();
+                                        String name = (mAuth.getCurrentUser().getEmail()).split("@")[0];
+                                        String s1 = name.substring(0, 1).toUpperCase();
+                                        Toast.makeText(ActivityLogin.this, "Welcome " + s1+name.substring(1), Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(ActivityLogin.this, ActivityStart.class));
                                     } else {
                                         Toast.makeText(ActivityLogin.this, "Incorrect Email or Password!", Toast.LENGTH_SHORT).show();

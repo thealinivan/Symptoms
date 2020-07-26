@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -15,10 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -114,14 +109,8 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
     @Override
     protected void onStart() {
         super.onStart();
-        //user authentication validation
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser == null) {
-//            startActivity(new Intent(ActivitySymptomsCaseDetails.this, ActivityLogin.class));
-//            Toast.makeText(this, "You need to login first!", Toast.LENGTH_SHORT).show();
-//        }
-
     }
+
     //toolbar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -234,8 +223,10 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
 
     public void updateUI(){
         //update UI header
-        UIemail.setText((userList.get(0).getEmail().toUpperCase()).split("@")[0]);
-        UIgender.setText(userList.get(0).getGender().toUpperCase());
+        String name = (userList.get(0).getEmail().toLowerCase()).split("@")[0];
+        String s1 = name.substring(0, 1).toUpperCase();
+        UIemail.setText(s1+name.substring(1));
+        UIgender.setText(userList.get(0).getGender().toLowerCase());
         UIage.setText(String.valueOf((Calendar.getInstance().get(Calendar.YEAR))-(userList.get(0).getYOB())));
         UIsymptoms.setText(currentDiagnosisCase.getDiagnosisSymptoms());
         //initiate adapter and attached it to recycler view
@@ -247,7 +238,7 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
 
     @Override
     public void onDiagnosisClick(int position) {
-        Log.d("Diagnosis clicked: -alin-> ", String.valueOf(position));
+        Log.d("alin Diagnosis Cliked", String.valueOf(position));
     }
 
 
