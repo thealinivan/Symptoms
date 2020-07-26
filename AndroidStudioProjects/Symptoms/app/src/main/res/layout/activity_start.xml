@@ -31,23 +31,39 @@
 
 
             <TextView
-                android:id="@+id/home_title"
-                android:layout_width="wrap_content"
+                android:id="@+id/home_main"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Comunity Symptoms Cases"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorLight2"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:text="Human Driven Diagnosis"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="25sp"
+                android:textSize="27sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/home_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Comunity Symptoms Cases"
+                android:textAlignment="center"
+                android:textColor="@color/halfBlack"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_main" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="80dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

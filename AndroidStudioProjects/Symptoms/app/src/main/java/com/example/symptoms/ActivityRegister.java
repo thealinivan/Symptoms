@@ -350,7 +350,7 @@ public class ActivityRegister extends AppCompatActivity {
     }
 
     public void validateYOB (EditText inputField, String YOB){
-        if(YOB.length() == 4 && Integer.parseInt(YOB) > 1899 && Integer.parseInt(YOB) <= Calendar.getInstance().get(Calendar.YEAR)) {
+        if(YOB.length() == 4 && Integer.parseInt(YOB) > 1899 && Integer.parseInt(YOB) <= Calendar.getInstance().get(Calendar.YEAR) - 17) {
             updateInputFieldValid(inputField);
         } else {
             updateInputFieldNotValid(inputField);

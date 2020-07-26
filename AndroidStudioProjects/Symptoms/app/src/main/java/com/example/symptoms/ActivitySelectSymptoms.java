@@ -194,12 +194,18 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
 
     //store diagnosis case with diagnosis and user references
     public void storeDiagnosisCaseInFirebase (List<Symptom> symptomsList, User user){
+
+        //create new Diagnosis case object
         final DiagnosisCase diagnosisCase = new DiagnosisCase(getSymptomsIDsStringFromList(selectedSymptomsList), getSymptomsStringFromList(selectedSymptomsList), user.getEmail());
+
+        //storage to firbase
         DatabaseReference dbRef;
         dbRef = FirebaseDatabase.getInstance().getReference("DiagnosisCase");
         dbRef.child(dbRef.push().getKey()).setValue(diagnosisCase).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+
+                //move to next activity
                 Intent i = new Intent(ActivitySelectSymptoms.this, ActivitySymptomsCaseDetails.class);
                 i.putExtra("DiagnosisCase", diagnosisCase);
                 i.putParcelableArrayListExtra("symptoms", selectedSymptomsList);

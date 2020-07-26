@@ -44,7 +44,7 @@ public class Issue implements Parcelable {
         return Accuracy;
     }
 
-    public void setAccuracy(int accuracy) {
+    public void setAccuracy(double accuracy) {
         Accuracy = accuracy;
     }
 

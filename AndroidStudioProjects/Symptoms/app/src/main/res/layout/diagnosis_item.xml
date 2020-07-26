@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/icd_name"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:padding="3dp"
@@ -47,7 +47,6 @@
         android:textAlignment="viewStart"
         android:textColor="@color/halfBlack"
         android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/health_issue_name"
         tools:text="ICD Name" />
@@ -121,6 +120,21 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/specialisation_label"
         app:layout_constraintTop_toBottomOf="@+id/icd_name" />
+
+    <TextView
+        android:id="@+id/suggest"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_secondary_action"
+        android:padding="3dp"
+        android:text="Suggest"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/healt_issue_accuracy_label" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

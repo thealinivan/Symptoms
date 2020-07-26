@@ -22,6 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -238,7 +242,55 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
 
     @Override
     public void onDiagnosisClick(int position) {
-        Log.d("alin Diagnosis Cliked", String.valueOf(position));
+        updateDiagnosisAccuracyInFirebase(position);
+        Intent i = new Intent(ActivitySymptomsCaseDetails.this, ActivitySymptomsCaseDetails.class);
+        i.putExtra("DiagnosisCase", currentDiagnosisCase);
+        startActivity(i);
+
+    }
+
+    //update diagnosis accuracy
+    public void updateDiagnosisAccuracyInFirebase (int position){
+        //decrease other diaggnosis values
+        for (int i = 0; i < diagsList.size(); i++){
+            Double decreaseVal = diagsList.get(i).getIssue().getAccuracy()-getAccuracyWeigthFactor(userList);
+            BigDecimal bd = new BigDecimal(decreaseVal).setScale(2, RoundingMode.HALF_UP);
+            diagsList.get(i).getIssue().setAccuracy(bd.doubleValue());
+        }
+
+        //increase suggested value an limit
+        Double limit = 98.00;
+        Double increaseVal = diagsList.get(position).getIssue().getAccuracy()
+                +(Double.valueOf(diagsList.size())*getAccuracyWeigthFactor(userList));
+        BigDecimal bd = new BigDecimal(increaseVal).setScale(2, RoundingMode.HALF_UP);
+        diagsList.get(position).getIssue().setAccuracy(bd.doubleValue());
+        if (diagsList.get(position).getIssue().getAccuracy() > limit) {
+            diagsList.get(position).getIssue().setAccuracy(limit);
+        }
+
+        //store(update) new values to firebase
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child("Diagnosis").child(currentDiagnosisCase.getDiagnosisSymptomsID()).setValue(diagsList);
+    }
+
+    //age based accuracy weight factor
+    public double getAccuracyWeigthFactor(List<User> userList){
+        //decrease other values
+        Double factor;
+        int userAge = Calendar.getInstance().get(Calendar.YEAR) - userList.get(0).getYOB();
+
+        if (userAge > 25) {
+            factor = 0.02;
+        } else if (userAge > 30) {
+            factor = 0.04;
+        } else if (userAge > 40) {
+            factor = 0.06;
+        } else if (userAge > 50 && userAge < 65) {
+            factor = 0.08;
+        } else {
+            factor = 0.01;
+        }
+        return factor;
     }
 
 

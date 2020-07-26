@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +61,9 @@ public class DiagnosisAdapter extends RecyclerView.Adapter<DiagnosisAdapter.Hold
         holder.name.setText(list.get(i).getIssue().getName());
         holder.ICDname.setText(list.get(i).getIssue().getIcdName());
         holder.ICDranking.setText(String.valueOf(list.get(i).getIssue().getRanking()));
-        holder.accuracy.setText(list.get(i).getIssue().getAccuracy() + "%");
+        Double acc = list.get(i).getIssue().getAccuracy();
+        BigDecimal bd = new BigDecimal(acc).setScale(2, RoundingMode.HALF_UP);
+        holder.accuracy.setText(bd.doubleValue() + "%");
         holder.specialisationList.setText(getSpecialisations(list.get(i).getSpecialisation()));
     }
 

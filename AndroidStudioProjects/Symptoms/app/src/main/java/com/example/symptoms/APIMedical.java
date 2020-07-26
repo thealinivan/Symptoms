@@ -23,10 +23,10 @@ import okhttp3.ResponseBody;
 public class APIMedical {
 
     //host
-    final static String HOST = "priaid-symptom-checker-v1.p.rapidapi.com";
+    final static String HOST = "API Key here";
 
     //key
-    final static String KEY = "API Key here";
+    final static String KEY = "c3992d3bc1mshb4072a8dc6816d1p19bc72jsn9e1487caf052";
 
     //query URL
     final static String allBodyLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations?language=en-gb";
