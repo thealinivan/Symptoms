@@ -235,6 +235,7 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
             Toast.makeText(this, "Login to suggest a diagnosis!", Toast.LENGTH_SHORT).show();
         } else {
             updateDiagnosisAccuracyInFirebase(position);
+            Toast.makeText(this, "You have suggested: " + diagsList.get(position).getIssue().getName(), Toast.LENGTH_SHORT).show();
             Intent i = new Intent(ActivitySymptomsCaseDetails.this, ActivitySymptomsCaseDetails.class);
             i.putExtra("DiagnosisCase", currentDiagnosisCase);
             startActivity(i);

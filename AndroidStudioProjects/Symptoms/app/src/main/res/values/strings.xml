@@ -58,8 +58,9 @@
     <string name="active_pass_conf_hint">must match</string>
 
     <!--    GDPR compliance-->
-    <string name="gdpr">"By clicking Register, you agree to share your personal information with Symptoms and affiliates under EU General Data Protection Regulation and UK Data Protection Act. "
-                    </string>
-    <string name="gdpr_link"><a href="https://www.gov.uk/data-protection">UK Data Protection Act </a> and <a href="https://gdpr-info.eu">EU General Data Protection Regulation</a></string>
+    <string name="gdpr">"By clicking Register, you agree to share your personal information with Symptoms and affiliates under
+        <a href="https://www.gov.uk/data-protection">UK Data Protection Act </a> and
+        <a href="https://gdpr-info.eu">EU General Data Protection Regulation</a>
+        . Also you acknowledge the result of the symptoms checker are informative and <b> cannot be treated as professional diagnosis</b>. </string>
 
 </resources>
