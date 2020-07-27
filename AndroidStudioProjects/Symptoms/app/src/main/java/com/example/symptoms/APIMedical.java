@@ -28,7 +28,7 @@ public class APIMedical {
     //key
     final static String KEY = "API Key here";
 
-    //query URL
+    //query URL. Used once to store in Firebase
     final static String allBodyLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations?language=en-gb";
     final static String allBodySubLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations/6?language=en-gb";
 
@@ -52,7 +52,7 @@ public class APIMedical {
         return null;
     }
 
-    //get and store all body locations to Firebase
+    //get and store all body locations to Firebase. Used once to store in Firebase
     public static void getAllBodyLocations() {
             String data = getApiResponse(allBodyLocationsURL);
             Gson gson = new Gson();
@@ -62,19 +62,16 @@ public class APIMedical {
                 public void accept(BodyLocation bLocation) {
                     DatabaseReference dbRef;
                     dbRef = FirebaseDatabase.getInstance().getReference();
-                        //Gson gson = new Gson();       //Logs
-                        //Log.d("Obj: ", gson.toJson(bLocation));
                     dbRef.child("Body").child("Locations").child(String.valueOf(bLocation.getID())).setValue(bLocation);
                 }
             });
     }
 
-    //get and store all body sublocations to Firebase
+    //get and store all body sublocations to Firebase. Used once to store in Firebase
     public static void getAllBodySubLocations(String[] locations){
                 final String[] loc = locations;
                 String data = getApiResponse(allBodySubLocationsURL);
                 Gson gson = new Gson();
-                Log.d("data BS: ", data);
                 List<BodySubLocation> list = gson.fromJson(data, new TypeToken<List<BodySubLocation>>() {}.getType());
                 list.forEach(new Consumer<BodySubLocation>() {
                     @Override
@@ -94,7 +91,6 @@ public class APIMedical {
         final String subLocation = subLocationID;
         String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/symptoms/"+subLocationID+"/"+ ageBasedGender +"?language=en-gb";
         String data = getApiResponse(allSymptomsForBodySublocation);
-        Log.d("response: ", data);
         Gson gson = new Gson();
         List<Symptom> list = gson.fromJson(data, new TypeToken<List<Symptom>>(){}.getType());
         list.forEach(new Consumer<Symptom>() {
@@ -137,23 +133,6 @@ public class APIMedical {
             sympString += symptoms.get(i).getID();
         }
         return sympString;
-    }
-
-    //get and store all health issues info based on diagnosis/health issues id
-    public static void getHealthIssueInfoForHealthIssue(String healthIssueID){
-        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/issues/"+healthIssueID+"/info?language=en-gb";
-        String data = getApiResponse(allSymptomsForBodySublocation);
-        Gson gson = new Gson();
-        List<DiagnosisInfo> list = gson.fromJson(data, new TypeToken<List<DiagnosisInfo>>() {}.getType());
-        list.forEach(new Consumer<DiagnosisInfo>() {
-            @Override
-            public void accept(DiagnosisInfo symp) {
-                DatabaseReference dbRef;
-                dbRef = FirebaseDatabase.getInstance().getReference();
-
-                //setup DiagnosisInfo object class and then decide database structure for transfer
-            }
-        });
     }
 
     //gender formatter

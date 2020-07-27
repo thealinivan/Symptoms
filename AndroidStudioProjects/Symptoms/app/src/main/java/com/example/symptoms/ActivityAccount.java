@@ -157,7 +157,7 @@ public class ActivityAccount extends AppCompatActivity implements DiagnosisCaseA
                     diagnosisCaseList.add(diagsCase);
                 }
                 //initiate adapter and attached it to recycler view
-                adapter = new DiagnosisCaseAdapter(diagnosisCaseList, ActivityAccount.this);
+                adapter = new DiagnosisCaseAdapter(ActivityStart.getOrderedDiagnosisCaseList(diagnosisCaseList), ActivityAccount.this);
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
@@ -181,7 +181,7 @@ public class ActivityAccount extends AppCompatActivity implements DiagnosisCaseA
     @Override
     public void onDiagnosisCaseClick(int position) {
         Intent i = new Intent(ActivityAccount.this, ActivitySymptomsCaseDetails.class);
-        i.putExtra("DiagnosisCase", diagnosisCaseList.get(position));
+        i.putExtra("DiagnosisCase", ActivityStart.getOrderedDiagnosisCaseList(diagnosisCaseList).get(position));
         startActivity(i);
     }
 }

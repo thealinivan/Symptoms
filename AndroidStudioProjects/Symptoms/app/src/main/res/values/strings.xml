@@ -13,7 +13,6 @@
     <string name="ad_subtitle">Case</string>
     <string name="report_subtitle">Case Report</string>
 
-
     <!--    Buttons-->
     <string name="add_attraction">Submit</string>
     <string name="submit_review">Submit</string>
@@ -61,5 +60,6 @@
     <!--    GDPR compliance-->
     <string name="gdpr">"By clicking Register, you agree to share your personal information with Symptoms and affiliates under EU General Data Protection Regulation and UK Data Protection Act. "
                     </string>
+    <string name="gdpr_link"><a href="https://www.gov.uk/data-protection">UK Data Protection Act </a> and <a href="https://gdpr-info.eu">EU General Data Protection Regulation</a></string>
 
 </resources>

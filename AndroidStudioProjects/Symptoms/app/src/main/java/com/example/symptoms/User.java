@@ -39,7 +39,6 @@ public class User implements Parcelable {
         return email;
     }
 
-
     public void setGender(String gender) {
         this.gender = gender;
     }

@@ -32,11 +32,11 @@
 
             <TextView
                 android:id="@+id/home_main"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/colorLight2"
-                android:paddingLeft="35dp"
+                android:padding="5dp"
                 android:paddingRight="35dp"
                 android:text="Human Driven Diagnosis"
                 android:textAlignment="center"
@@ -46,16 +46,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/home_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Comunity Symptoms Cases"
-                android:textAlignment="center"
-                android:textColor="@color/halfBlack"
-                android:textSize="23sp"
+
+            <EditText
+                android:id="@+id/search_text"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/search_input"
+                android:hint="Search symptoms.."
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:textColor="@color/semiT80"
+                android:textColorHint="@color/black3"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_main" />
 
@@ -67,8 +73,10 @@
                 android:layout_marginBottom="80dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_title" />
+                app:layout_constraintTop_toBottomOf="@+id/search_text"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ProgressBar
                 android:id="@+id/home_progress_bar"

@@ -245,7 +245,6 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
                     symptomsList.add(symp);
                 }
             } else {
-                Log.d("WARNING - symptomsActivity: ","API call SYMPTOMS");
                 //call API
                 APIMedical.getSymptomsForBodySubLocation(String.valueOf(bodySubLocation.getID()), userList.get(0));
                 //recursive call for symptoms from Firebase
@@ -268,11 +267,8 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             diagsList.clear();
             if (!dataSnapshot.exists()) {
-                Log.d("WARNING  - symptomsActivity: ","API call DIAGNOSIS");
                 //call API //memo: convert symptoms ID's to JSON serialized int array before call
                 APIMedical.getAllDiagnosisForSymptompsCase(selectedSymptomsList, userList.get(0));
-            } else {
-                Log.d(" WAR listener - symp diags listener","NO DIAGNOSIS from Firebase");
             }
             //store diags case in firebase
             storeDiagnosisCaseInFirebase(selectedSymptomsList, userList.get(0));
@@ -290,7 +286,7 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
             currentSymptoms += symptomsList.get(position).getName()+ " | ";
             addedSymptoms.setText(currentSymptoms);
         }
-        addedSymptoms.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+        addedSymptoms.setBackgroundColor(getResources().getColor(R.color.colorLight2));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -139,7 +139,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/register_password" />
 
-
                 <Button
                     android:id="@+id/register_registerBtn"
                     android:layout_width="180dp"

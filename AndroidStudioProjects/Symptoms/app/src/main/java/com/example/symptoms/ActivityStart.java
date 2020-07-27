@@ -2,10 +2,14 @@ package com.example.symptoms;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +35,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
     private RecyclerView rv;
     private RecyclerView.LayoutManager manager;
     private DiagnosisCaseAdapter adapter;
+    private EditText searchText;
     private ProgressBar pBar;
     private ArrayList<DiagnosisCase> diagnosisCaseList = new ArrayList<>();
 
@@ -46,21 +51,51 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
     //set layout and toolbar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //intial setup
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_start);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setIcon(R.drawable.ic_app_icon_2);
-        //set Activity title
         getSupportActionBar().setTitle("  Symptoms");
 
+        //UI elements
+        searchText = findViewById(R.id.search_text);
         pBar = findViewById(R.id.home_progress_bar);
+
+        //inflater
         rv = findViewById(R.id.home_recycler);
         manager = new GridLayoutManager(ActivityStart.this, 1);
         rv.setLayoutManager(manager);
 
+        //get data
         getAllDiagnosisCasesFromFirebase();
+
+        //search input event
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //initiate adapter and attached it to recycler view
+                pBar.setVisibility(View.VISIBLE);
+                adapter = new DiagnosisCaseAdapter(
+                        getSearchedSymptoms(
+                                getOrderedDiagnosisCaseList(diagnosisCaseList),
+                                searchText.getText().toString().toLowerCase().trim()), ActivityStart.this);
+                rv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                pBar.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     //set toolbar menu
@@ -102,11 +137,10 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
                 for (DataSnapshot dss : dataSnapshot.getChildren()) {
                     DiagnosisCase diagsCase = dss.getValue(DiagnosisCase.class);
                     diagnosisCaseList.add(diagsCase);
-                    Log.d("Home: diags: ", String.valueOf(diagnosisCaseList.size()));
                 }
             }
             //initiate adapter and attached it to recycler view
-            adapter = new DiagnosisCaseAdapter(diagnosisCaseList, ActivityStart.this);
+            adapter = new DiagnosisCaseAdapter(getOrderedDiagnosisCaseList(diagnosisCaseList), ActivityStart.this);
             rv.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             pBar.setVisibility(View.INVISIBLE);
@@ -115,12 +149,34 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
         public void onCancelled(@NonNull DatabaseError databaseError) { }
     };
 
+    //on click listener from DiagnosisCase interface
     @Override
     public void onDiagnosisCaseClick(int position) {
         Intent i = new Intent(ActivityStart.this, ActivitySymptomsCaseDetails.class);
-        i.putExtra("DiagnosisCase", diagnosisCaseList.get(position));
+        i.putExtra("DiagnosisCase", getOrderedDiagnosisCaseList(diagnosisCaseList).get(position));
         startActivity(i);
     }
+
+    //order diagnosis list for UI injection
+    public static ArrayList<DiagnosisCase>  getOrderedDiagnosisCaseList(ArrayList<DiagnosisCase> list){
+        ArrayList<DiagnosisCase> orderedDiagsCaseList = new ArrayList<>();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            orderedDiagsCaseList.add(list.get(i));
+        }
+        return orderedDiagsCaseList;
+    }
+
+    //get searched symptoms cases list
+    public ArrayList<DiagnosisCase> getSearchedSymptoms (ArrayList<DiagnosisCase> list, String searchWord){
+        ArrayList<DiagnosisCase> searchList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getDiagnosisSymptoms().toLowerCase().contains(searchWord)){
+                searchList.add(list.get(i));
+            }
+        }
+        return searchList;
+    }
+
 
 }
 

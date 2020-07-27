@@ -14,16 +14,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ActivitySelectSymptoms"></activity>
-        <activity android:name=".ActivitySelectBodySubLocation" />
-        <activity android:name=".ActivitySymptomsCaseDetails" />
-        <activity android:name=".ActivityRegister" />
-        <activity android:name=".ActivityAccount" />
-        <activity android:name=".ActivityLogin" />
-        <activity android:name=".ActivitySelectBodyLocation" />
+        <activity android:name=".ActivitySelectSymptoms"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ActivitySelectBodySubLocation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySymptomsCaseDetails"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityRegister"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityAccount"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityLogin"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySelectBodyLocation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ActivityStart"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

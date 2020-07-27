@@ -48,25 +48,6 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.Holder> 
     public void onBindViewHolder(@NonNull Holder holder, final int i) {
         //set title
         holder.tv.setText(list.get(i).getName());
-
-
-        //multiselection UI update - NOT WORKING AS EXPECTED !!!!
-        //not efficient to include onClickListener inside onBindViewHolder
-//        holder.tv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                row_index = i;
-//                notifyDataSetChanged();
-//            }
-//        });
-//
-//        if(row_index==i){
-//            holder.tv.setBackgroundResource(R.drawable.selection_item_shape_active);
-//        } else {
-//            holder.tv.setBackgroundResource(R.drawable.selection_item_shape);
-//        }
-
-
     }
 
     @Override

@@ -1,5 +1,4 @@
 package com.example.symptoms;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,10 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -51,9 +51,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
 
     //report header
     private TextView UIemail, UIgender, UIage, UIsymptoms;
-
-    //recycler
-    //
 
     //set layout and toolbar
     @Override
@@ -103,8 +100,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         //symptomsList = getIntent().getParcelableExtra("symptoms");
         symptomsList = getIntent().getParcelableArrayListExtra("symptoms");
         currentDiagnosisCase = getIntent().getParcelableExtra("DiagnosisCase");
-        Log.d("currentDiagnosisCase: ", currentDiagnosisCase.getDiagnosisSymptoms());
-
         //get diagnosis from firebase related to current diagnosis case's symptoms previously selected by the user
         getUserInfoFromFirebase();
 
@@ -176,8 +171,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
                     User user = dss.getValue(User.class);
                     userList.add(user);
                 }
-            } else {
-                Log.d(" WAR listener - case diagsCase listener","NO User from Firebase");
             }
             getDiagnosisCaseFromFirebase(userList);
         }
@@ -191,15 +184,11 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             diagsCaseList.clear();
             if (dataSnapshot.exists()) {
-                Log.d("dC snapshot: ", String.valueOf(dataSnapshot.getValue()));
                 for (DataSnapshot dss : dataSnapshot.getChildren()) {
                     DiagnosisCase diagsCase = dss.getValue(DiagnosisCase.class);
                     diagsCaseList.add(diagsCase);
                 }
-            } else {
-                Log.d(" WAR listener - case diagsCase listener","NO DIAGNOSIS CASES from Firebase");
             }
-            Log.d("dCaseList size : ", String.valueOf(diagsCaseList.size()));
             getDiagnosisFromFirebase(currentDiagnosisCase);
         }
         @Override
@@ -216,8 +205,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
                     GenericTypeIndicator<ArrayList<Diagnosis>> t = new GenericTypeIndicator <ArrayList<Diagnosis>>() {};
                     diagsList = dss.getValue(t);
                 }
-            } else {
-                Log.d(" WAR listener - symp diags listener","NO DIAGNOSIS from Firebase");
             }
            updateUI();
         }
@@ -242,10 +229,17 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
 
     @Override
     public void onDiagnosisClick(int position) {
-        updateDiagnosisAccuracyInFirebase(position);
-        Intent i = new Intent(ActivitySymptomsCaseDetails.this, ActivitySymptomsCaseDetails.class);
-        i.putExtra("DiagnosisCase", currentDiagnosisCase);
-        startActivity(i);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            startActivity(new Intent(ActivitySymptomsCaseDetails.this, ActivityLogin.class));
+            Toast.makeText(this, "Login to suggest a diagnosis!", Toast.LENGTH_SHORT).show();
+        } else {
+            updateDiagnosisAccuracyInFirebase(position);
+            Intent i = new Intent(ActivitySymptomsCaseDetails.this, ActivitySymptomsCaseDetails.class);
+            i.putExtra("DiagnosisCase", currentDiagnosisCase);
+            startActivity(i);
+        }
+
 
     }
 
@@ -292,6 +286,5 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         }
         return factor;
     }
-
 
 }
