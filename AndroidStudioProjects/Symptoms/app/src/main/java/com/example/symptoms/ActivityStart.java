@@ -35,7 +35,8 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
     private RecyclerView rv;
     private RecyclerView.LayoutManager manager;
     private DiagnosisCaseAdapter adapter;
-    private EditText searchText;
+    private TextView searchText, addMessage;
+    private Button addBtn;
     private ProgressBar pBar;
     private ArrayList<DiagnosisCase> diagnosisCaseList = new ArrayList<>();
 
@@ -63,7 +64,12 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
 
         //UI elements
         searchText = findViewById(R.id.search_text);
+        addBtn = findViewById(R.id.home_plus);
         pBar = findViewById(R.id.home_progress_bar);
+        addMessage = findViewById(R.id.home_plus_message);
+        addBtn.setVisibility(View.INVISIBLE);
+        addMessage.setVisibility(View.INVISIBLE);
+
 
         //inflater
         rv = findViewById(R.id.home_recycler);
@@ -86,6 +92,15 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 pBar.setVisibility(View.INVISIBLE);
+                if (getSearchedSymptoms(
+                        getOrderedDiagnosisCaseList(diagnosisCaseList),
+                        searchText.getText().toString().toLowerCase().trim()).size() <= 0) {
+                    addBtn.setVisibility(View.VISIBLE);
+                    addMessage.setVisibility(View.VISIBLE);
+                } else {
+                    addBtn.setVisibility(View.INVISIBLE);
+                    addMessage.setVisibility(View.INVISIBLE);
+                }
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,6 +111,14 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
                 // TODO Auto-generated method stub
             }
         });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityStart.this, ActivitySelectBodyLocation.class));
+            }
+        });
+
     }
 
     //set toolbar menu

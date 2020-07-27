@@ -25,6 +25,7 @@
     <color name="black4">#A9D5D5D5</color>
 
     // white-black gradient
+    <color name="white90">#EBFFFFFF</color>
     <color name="white80">#CDFFFFFF</color>
     <color name="white60">#99FFFFFF</color>
     <color name="white40">#66FFFFFF</color>
