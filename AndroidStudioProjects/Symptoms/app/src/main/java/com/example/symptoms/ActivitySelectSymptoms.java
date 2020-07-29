@@ -110,7 +110,9 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
             @Override
             public void onClick(View v) {
                 if (selectedSymptomsList.size() > 0) {
+                    pBar.setVisibility(View.VISIBLE);
                     getDiagnosisFromFirebase(selectedSymptomsList);
+                    pBar.setVisibility(View.INVISIBLE);
                 } else {
                     Toast.makeText(ActivitySelectSymptoms.this, "Select at least 1 symptom", Toast.LENGTH_SHORT).show();
                 }

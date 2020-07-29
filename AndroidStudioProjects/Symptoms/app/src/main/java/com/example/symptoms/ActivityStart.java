@@ -39,6 +39,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
     private Button addBtn;
     private ProgressBar pBar;
     private ArrayList<DiagnosisCase> diagnosisCaseList = new ArrayList<>();
+    private DiagnosisCase clickedDiags;
 
     //open the same activity on back pressed to avoid..
     //..going on the main activity wich should be displayed..
@@ -88,7 +89,8 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
                 adapter = new DiagnosisCaseAdapter(
                         getSearchedSymptoms(
                                 getOrderedDiagnosisCaseList(diagnosisCaseList),
-                                searchText.getText().toString().toLowerCase().trim()), ActivityStart.this);
+                                searchText.getText().toString().toLowerCase().trim()),
+                        ActivityStart.this);
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 pBar.setVisibility(View.INVISIBLE);
@@ -176,7 +178,10 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
     @Override
     public void onDiagnosisCaseClick(int position) {
         Intent i = new Intent(ActivityStart.this, ActivitySymptomsCaseDetails.class);
-        i.putExtra("DiagnosisCase", getOrderedDiagnosisCaseList(diagnosisCaseList).get(position));
+        i.putExtra("DiagnosisCase",
+                getSearchedSymptoms(
+                        getOrderedDiagnosisCaseList(diagnosisCaseList),
+                        searchText.getText().toString().toLowerCase().trim()).get(position));
         startActivity(i);
     }
 
