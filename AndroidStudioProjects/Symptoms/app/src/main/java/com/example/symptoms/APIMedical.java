@@ -26,7 +26,7 @@ public class APIMedical {
     final static String HOST = "priaid-symptom-checker-v1.p.rapidapi.com";
 
     //key
-    final static String KEY = "API Key here";
+    final static String KEY = "API key here";
 
     //query URL. Used once to store in Firebase
     final static String allBodyLocationsURL = "https://priaid-symptom-checker-v1.p.rapidapi.com/body/locations?language=en-gb";

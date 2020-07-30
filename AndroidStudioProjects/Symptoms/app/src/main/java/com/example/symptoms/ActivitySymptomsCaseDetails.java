@@ -38,7 +38,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
     private DatabaseReference dbRef;
     private Query qRef;
     private List<User> userList = new ArrayList<>();
-    private List<Symptom> symptomsList = new ArrayList<>();
     private RecyclerView rv;
     private RecyclerView.LayoutManager manager;
     private DiagnosisAdapter adapter;
@@ -46,7 +45,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
     private BodySubLocation bodySubLocation;
     private BodyLocation bodyLocation;
     private ArrayList<Diagnosis> diagsList = new ArrayList<>();
-    private static List<DiagnosisCase> diagsCaseList = new ArrayList<>();
     private DiagnosisCase currentDiagnosisCase;
 
     //report header
@@ -97,8 +95,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
             StrictMode.setThreadPolicy(policy);
         }
 
-        //symptomsList = getIntent().getParcelableExtra("symptoms");
-        symptomsList = getIntent().getParcelableArrayListExtra("symptoms");
         currentDiagnosisCase = getIntent().getParcelableExtra("DiagnosisCase");
         //get diagnosis from firebase related to current diagnosis case's symptoms previously selected by the user
         getUserInfoFromFirebase();
@@ -142,15 +138,6 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
         qRef.addListenerForSingleValueEvent(userInfoListener);
     }
 
-    //get diagnosis case from Firebase based on symptoms list
-    public void getDiagnosisCaseFromFirebase(List<User> userList){
-        Query qRef;
-        qRef = FirebaseDatabase.getInstance().getReference().child("DiagnosisCase")
-                .orderByChild("userEmail")
-                .equalTo(userList.get(0).getEmail());
-        qRef.addListenerForSingleValueEvent(diagnosisCaseListener);
-    }
-
     //get diagnosis from Firebase based on symptoms list
     public void getDiagnosisFromFirebase(DiagnosisCase diagsCase){
         Query qRef;
@@ -172,28 +159,12 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
                     userList.add(user);
                 }
             }
-            getDiagnosisCaseFromFirebase(userList);
-        }
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) { }
-    };
-
-    //diagnosis case listener
-    ValueEventListener diagnosisCaseListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            diagsCaseList.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot dss : dataSnapshot.getChildren()) {
-                    DiagnosisCase diagsCase = dss.getValue(DiagnosisCase.class);
-                    diagsCaseList.add(diagsCase);
-                }
-            }
             getDiagnosisFromFirebase(currentDiagnosisCase);
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) { }
     };
+
 
     //diagnosis listener
     ValueEventListener diagnosisListener = new ValueEventListener() {
@@ -235,13 +206,12 @@ public class ActivitySymptomsCaseDetails extends AppCompatActivity implements Di
             Toast.makeText(this, "Login to suggest a diagnosis!", Toast.LENGTH_SHORT).show();
         } else {
             updateDiagnosisAccuracyInFirebase(position);
-            Toast.makeText(this, "You have suggested: " + diagsList.get(position).getIssue().getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You have suggested: " +
+                    diagsList.get(position).getIssue().getName(), Toast.LENGTH_SHORT).show();
             Intent i = new Intent(ActivitySymptomsCaseDetails.this, ActivitySymptomsCaseDetails.class);
             i.putExtra("DiagnosisCase", currentDiagnosisCase);
             startActivity(i);
         }
-
-
     }
 
     //update diagnosis accuracy

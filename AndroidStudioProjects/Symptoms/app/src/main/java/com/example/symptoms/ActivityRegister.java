@@ -197,7 +197,6 @@ public class ActivityRegister extends AppCompatActivity {
             public void onClick(View v) {
                 //Store inputs in variables
                 String userGender = gender.getText().toString().toLowerCase().trim();
-                int userYOB = Integer.parseInt(yearOfBirth.getText().toString().trim());
                 String userEmail = email.getText().toString().toLowerCase().trim();
                 String userPassword = pass.getText().toString().trim();
                 String userPassConf = passConf.getText().toString().trim();
@@ -236,7 +235,14 @@ public class ActivityRegister extends AppCompatActivity {
                     Toast.makeText(ActivityRegister.this, "Wrong email!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    registerNewUser(userGender, userYOB, userEmail);
+                    int YOB = Integer.parseInt(yearOfBirth.getText().toString().trim());
+                    if(YOB < 1900 || YOB > Calendar.getInstance().get(Calendar.YEAR) - 18) {
+                        Toast.makeText(ActivityRegister.this, "YOB must be 1990 to present. Over 18 only!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        int userYOB = Integer.parseInt(yearOfBirth.getText().toString().trim());
+                        registerNewUser(userGender, userYOB, userEmail);
+                    }
+
                 }
             }
         });
