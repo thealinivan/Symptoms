@@ -43,15 +43,11 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
 
-
-    //APIMedical dependencies
+    //APIMedical utility dependencies
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'org.json:json:20141113'
     implementation 'com.google.code.gson:gson:2.8.5'
 
-
-    //image core
-    implementation 'com.squareup.picasso:picasso:2.71828'
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'
@@ -67,6 +63,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0-rc01'
+
+    //image core
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 
 }

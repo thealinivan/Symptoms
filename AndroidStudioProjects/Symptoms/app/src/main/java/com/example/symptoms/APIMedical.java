@@ -79,7 +79,8 @@ public class APIMedical {
                         DatabaseReference dbRef;
                         dbRef = FirebaseDatabase.getInstance().getReference();
                         for (int i=0; i < loc.length; i++){
-                            dbRef.child("Body").child("Sublocations").child(String.valueOf(loc[i])).child(String.valueOf(bLocation.getID())).setValue(bLocation);
+                            dbRef.child("Body").child("Sublocations").child(String.valueOf(loc[i])).
+                                    child(String.valueOf(bLocation.getID())).setValue(bLocation);
                         }
                     }
                 });
@@ -89,7 +90,8 @@ public class APIMedical {
     public static void getSymptomsForBodySubLocation(String subLocationID, User user){
         final String ageBasedGender = getAgeBasedGender(user);
         final String subLocation = subLocationID;
-        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/symptoms/"+subLocationID+"/"+ ageBasedGender +"?language=en-gb";
+        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/symptoms/"
+                                                            +subLocationID+"/"+ ageBasedGender +"?language=en-gb";
         String data = getApiResponse(allSymptomsForBodySublocation);
         Gson gson = new Gson();
         List<Symptom> list = gson.fromJson(data, new TypeToken<List<Symptom>>(){}.getType());
@@ -98,21 +100,23 @@ public class APIMedical {
             public void accept(Symptom symp) {
                     DatabaseReference dbRef;
                     dbRef = FirebaseDatabase.getInstance().getReference();
-                    dbRef.child("Body").child("Symptoms").child(String.valueOf(subLocation)).child(String.valueOf(symp.getID())).setValue(symp);
+                    dbRef.child("Body").child("Symptoms").child(String.valueOf(subLocation)).
+                            child(String.valueOf(symp.getID())).setValue(symp);
                 }
             });
     }
 
     //get and store all diagnosis based on case symptoms
     public static void getAllDiagnosisForSymptompsCase(List<Symptom> symptoms, User user){
-        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?symptoms="+getSymptomsInJSON(symptoms)+"&gender="+user.getGender()+"&year_of_birth="+user.getYOB()+"&language=en-gb";
+        String allSymptomsForBodySublocation = "https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?symptoms="
+                                                    +getSymptomsInJSON(symptoms)+"&gender="+user.getGender()+"&year_of_birth="
+                                                        +user.getYOB()+"&language=en-gb";
         String data = getApiResponse(allSymptomsForBodySublocation);
         Gson gson = new Gson();
         List<Diagnosis> diagnosisList = gson.fromJson(data, new TypeToken<List<Diagnosis>>() {}.getType());
         DatabaseReference dbRef;
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.child("Diagnosis").child(getSymptomsStringFromList(symptoms)).setValue(diagnosisList);
-
     }
 
     public static String getSymptomsInJSON (List<Symptom> symptoms){

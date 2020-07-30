@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAdapter.Holder.DiagnosisCaseClickListener{
 
+    //classes instances
     private FirebaseAuth mAuth;
     private Query qRef;
     private RecyclerView rv;
@@ -39,16 +40,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
     private Button addBtn;
     private ProgressBar pBar;
     private ArrayList<DiagnosisCase> diagnosisCaseList = new ArrayList<>();
-    private DiagnosisCase clickedDiags;
 
-    //open the same activity on back pressed to avoid..
-    //..going on the main activity wich should be displayed..
-    //..only once when the app is initialized
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(ActivityStart.this, ActivityStart.class));
-    }
 
     //set layout and toolbar
     @Override
@@ -94,6 +86,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
                 rv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 pBar.setVisibility(View.INVISIBLE);
+                //UX implementation
                 if (getSearchedSymptoms(
                         getOrderedDiagnosisCaseList(diagnosisCaseList),
                         searchText.getText().toString().toLowerCase().trim()).size() <= 0) {
@@ -114,6 +107,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
             }
         });
 
+        //secondary button onclick action handling to create new symptoms case
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +179,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
         startActivity(i);
     }
 
-    //order diagnosis list for UI injection
+    //get sorted diagnosis to display the latest diagnosis at the top
     public static ArrayList<DiagnosisCase>  getOrderedDiagnosisCaseList(ArrayList<DiagnosisCase> list){
         ArrayList<DiagnosisCase> orderedDiagsCaseList = new ArrayList<>();
         for (int i = list.size() - 1; i >= 0; i--) {
@@ -194,7 +188,7 @@ public class ActivityStart extends AppCompatActivity implements DiagnosisCaseAda
         return orderedDiagsCaseList;
     }
 
-    //get searched symptoms cases list
+    //getsearched symptoms cases list based on search string user input
     public ArrayList<DiagnosisCase> getSearchedSymptoms (ArrayList<DiagnosisCase> list, String searchWord){
         ArrayList<DiagnosisCase> searchList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {

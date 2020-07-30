@@ -202,7 +202,8 @@ public class ActivitySelectSymptoms extends AppCompatActivity implements Symptom
     public void storeDiagnosisCaseInFirebase (List<Symptom> symptomsList, User user){
 
         //create new Diagnosis case object
-        final DiagnosisCase diagnosisCase = new DiagnosisCase(getSymptomsIDsStringFromList(selectedSymptomsList), getSymptomsStringFromList(selectedSymptomsList), user.getEmail());
+        final DiagnosisCase diagnosisCase = new DiagnosisCase(getSymptomsIDsStringFromList(selectedSymptomsList),
+                getSymptomsStringFromList(selectedSymptomsList), user.getEmail());
 
         //storage to firbase
         DatabaseReference dbRef;

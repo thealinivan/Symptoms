@@ -10,7 +10,6 @@
         android:orderInCategory="1"
         android:title="New Symptoms Case"
         app:showAsAction="always" />
-    //can also be showAsAction="always"
 
     <!--account option-->
     <item

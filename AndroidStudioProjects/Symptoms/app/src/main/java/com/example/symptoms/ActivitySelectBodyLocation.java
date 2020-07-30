@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class ActivitySelectBodyLocation extends AppCompatActivity implements BodyLocationAdapter.Holder.BodyLocationClickListener {
 
-    //classes instances
+
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private Query qRef;
@@ -135,6 +135,7 @@ public class ActivitySelectBodyLocation extends AppCompatActivity implements Bod
         }
     };
 
+    //on item click handler
     @Override
     public void onBodyLocationClick(int position) {
         startActivity(new Intent(this, ActivitySelectBodySubLocation.class)
